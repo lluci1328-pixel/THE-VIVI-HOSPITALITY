@@ -1,0 +1,453 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --base: #05060d;
+  --panel: #0a0d18;
+  --electric: #2e7bff;
+  --azure: #4f92ff;
+  --sky: #7cc0ff;
+  --cyan: #67e8f9;
+  --indigo: #6d6ef6;
+  --violet: #8b5cf6;
+  --silver: #c7d2e0;
+  --mist: #e8eef8;
+  --sidebar-w: 260px;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--base);
+  color: var(--mist);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Belt-and-suspenders: clip stray decorative overflow inside scoped scenes. */
+.lluci {
+  overflow-x: clip;
+}
+
+/* Keep the full-screen heroes from clipping their headline on short
+   (laptop / landscape-mobile) viewports — scale the type & spacing down. */
+@media (max-height: 760px) {
+  #home h1,
+  #top h1 {
+    font-size: clamp(2.6rem, 8.2vw, 5rem);
+    line-height: 0.98;
+  }
+  #home h1 + p,
+  #top h1 + p {
+    margin-top: 1.25rem;
+  }
+}
+@media (max-height: 620px) {
+  #home h1,
+  #top h1 {
+    font-size: clamp(2.2rem, 7vw, 3.6rem);
+  }
+}
+
+/* Always show the OS cursor. Interactive elements get the pointer. */
+button,
+a,
+[role="button"],
+summary,
+label[for],
+select {
+  cursor: pointer;
+}
+input,
+textarea {
+  cursor: text;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* ---------- Custom scrollbar (electric) ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #05060d;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1c3a7a, #2e7bff);
+  border-radius: 999px;
+  border: 2px solid #05060d;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2e7bff, #67e8f9);
+}
+
+::selection {
+  background: rgba(46, 123, 255, 0.32);
+  color: #fff;
+}
+
+/* ---------- Typography ---------- */
+.font-display {
+  font-family: var(--font-display), serif;
+}
+.overline {
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+.text-aurora {
+  background: linear-gradient(110deg, #7cc0ff 0%, #2e7bff 42%, #6d6ef6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-ice {
+  background: linear-gradient(110deg, #ffffff 0%, #c7d2e0 60%, #7cc0ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Glass ---------- */
+.glass {
+  background: rgba(16, 20, 34, 0.5);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.glass-strong {
+  background: rgba(9, 12, 22, 0.78);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  border: 1px solid rgba(124, 192, 255, 0.14);
+}
+.glass-card {
+  background: linear-gradient(
+    160deg,
+    rgba(30, 40, 66, 0.55),
+    rgba(10, 13, 24, 0.55)
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Hairline divider */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(46, 123, 255, 0.5),
+    transparent
+  );
+}
+
+/* ---------- Noise ---------- */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Ambient glow blobs ---------- */
+.glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(120deg, #2e7bff, #4f92ff 55%, #6d6ef6);
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 40px -12px rgba(46, 123, 255, 0.75),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px -10px rgba(46, 123, 255, 0.9),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+}
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 80%
+  );
+  transform: translateX(-130%);
+  z-index: -1;
+}
+.btn-primary:hover::before {
+  transform: translateX(130%);
+  transition: transform 0.9s ease;
+}
+
+.btn-ghost {
+  position: relative;
+  overflow: hidden;
+  color: var(--mist);
+  border: 1px solid rgba(124, 192, 255, 0.32);
+  background: rgba(124, 192, 255, 0.03);
+  transition: border-color 0.5s ease, background 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 192, 255, 0.75);
+  background: rgba(46, 123, 255, 0.1);
+}
+
+/* Animated gradient border */
+.shimmer-border {
+  position: relative;
+}
+.shimmer-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    130deg,
+    rgba(46, 123, 255, 0) 30%,
+    rgba(124, 192, 255, 0.9) 50%,
+    rgba(46, 123, 255, 0) 70%
+  );
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderShimmer 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes borderShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+/* Card hover lift */
+.card-lift {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s ease, border-color 0.6s ease;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 70px -30px rgba(46, 123, 255, 0.5);
+  border-color: rgba(124, 192, 255, 0.3);
+}
+
+/* Marquee */
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 34s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Aurora sweep for loader */
+@keyframes auroraShift {
+  0% {
+    transform: translate(-10%, -10%) rotate(0deg);
+  }
+  50% {
+    transform: translate(10%, 10%) rotate(180deg);
+  }
+  100% {
+    transform: translate(-10%, -10%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.tap-highlight-none {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbar for inner panels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =====================================================================
+   THE LLUCI RESTAURANT — warm scoped identity (gold / amber / espresso)
+   Distinct from the hotel's cool electric-blue theme.
+   ===================================================================== */
+.lluci {
+  --gold: #c8a24a;
+  --gold-light: #e7cd8c;
+  --ember: #e08a3c;
+  --espresso: #0c0906;
+  --wine: #4a1420;
+  --cream: #f3ece0;
+  background: var(--espresso);
+  color: var(--cream);
+}
+.lluci ::selection {
+  background: rgba(200, 162, 74, 0.3);
+  color: #fff;
+}
+.lluci .text-gold {
+  background: linear-gradient(120deg, #e7cd8c 0%, #c8a24a 45%, #9c7a2e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lluci .glass-gold {
+  background: rgba(24, 18, 10, 0.5);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(200, 162, 74, 0.16);
+}
+.lluci .btn-gold {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(120deg, #e7cd8c, #c8a24a 60%, #9c7a2e);
+  color: #17110a;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 40px -12px rgba(200, 162, 74, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+.lluci .btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px -10px rgba(200, 162, 74, 0.9),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.lluci .btn-gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.5) 50%, transparent 80%);
+  transform: translateX(-130%);
+  z-index: -1;
+}
+.lluci .btn-gold:hover::before {
+  transform: translateX(130%);
+  transition: transform 0.9s ease;
+}
+.lluci .btn-gold-ghost {
+  color: var(--cream);
+  border: 1px solid rgba(200, 162, 74, 0.35);
+  background: rgba(200, 162, 74, 0.03);
+  transition: border-color 0.5s ease, background 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lluci .btn-gold-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(200, 162, 74, 0.8);
+  background: rgba(200, 162, 74, 0.08);
+}
+.lluci .card-lift-gold {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease, border-color 0.6s ease;
+}
+.lluci .card-lift-gold:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 70px -30px rgba(200, 162, 74, 0.5);
+  border-color: rgba(200, 162, 74, 0.3);
+}
+.lluci .overline-gold {
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--gold);
+}
+/* steam for hot dishes */
+.lluci .steam {
+  position: absolute;
+  width: 14px;
+  height: 90px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28));
+  border-radius: 50%;
+  filter: blur(9px);
+  opacity: 0;
+  animation: steamRise 5s ease-in infinite;
+}
+@keyframes steamRise {
+  0% { transform: translateY(0) scaleX(1); opacity: 0; }
+  15% { opacity: 0.7; }
+  100% { transform: translateY(-160px) scaleX(2.6); opacity: 0; }
+}
+@keyframes slowspin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* restaurant scrollbar */
+.lluci-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6b5518, #c8a24a);
+}
